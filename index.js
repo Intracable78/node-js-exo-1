@@ -1,69 +1,71 @@
+// import
 const express = require('express');
 const app = express();
 const port = 3000;
-
-
 app.use(express.json())
 
-
+//route test
 
 app.get('/', (req, res) => {
     res.send('Hello World, from express');
 });
 
-const products = [];
-products.push({
-    id: 1,
-    name: 'first product',
-    aliment: 'Tomate'
-})
+// data par defaut
 
-app.get('/products', (req, res) => res.json(products));
+const books = [];
+books.push(
+    {
+        id: 1,
+        name: 'Premier Livre',
+        qty: '3'
+    },
+    {
+        id: 2,
+        name: 'Second Livre',
+        qty: '1'
+    }
+)
 
-app.post('/create/product', (req, res) => {
-    const product = req.body;
-    if (products.find(x => x.id === parseInt(req.body.id))) {
+app.get('/books', (req, res) => res.json(books));
+
+app.post('/create/books', (req, res) => {
+    const book = req.body;
+    if (books.find(x => x.id === parseInt(req.body.id))) {
         res.send('Sorry this id is already exists');
         return;
     }
-    products.push(product);
-    res.send('Product has benn created successfully');
-    // products.push(req.body);
+    books.push(book);
+    res.send('Book has been created successfully');
 })
 
-app.get('/product/:id', (req, res) => {
-    const searchProductByid = products.find(x => x.id === parseInt(req.params.id))
-    if (!searchProductByid) {
-        res.send('Error : product not exists')
+app.get('/book/:id', (req, res) => {
+    const searchBookByid = books.find(x => x.id === parseInt(req.params.id))
+    if (!searchBookByid) {
+        res.send('Error : book not exists')
         return;
     }
-    res.send(searchProductByid);
+    res.send(searchBookByid);
 })
 
-app.post('/update/product/:id', (req, res) => {
-    console.log('here')
-    const searchProductByid = products.find(x => x.id === req.params.id)
-    if (!searchProductByid) {
-        res.send('Error : product not exists')
+app.post('/update/book/:id', (req, res) => {
+    const searchBookByid = books.find(x => x.id === req.params.id)
+    if (!searchBookByid) {
+        res.send('Error : book not exists')
         return;
     }
-    searchProductByid.id = req.body.id;
-    searchProductByid.name = req.body.name;
-    searchProductByid.aliment = req.body.aliment;
-    res.send(searchProductByid);
-
+    searchBookByid.id = req.body.id;
+    searchBookByid.name = req.body.name;
+    searchBookByid.qty = req.body.qty;
+    res.send(searchBookByid);
 })
 
-app.delete('/delete/product/:id', (req, res) => {
-    const searchProductByid = products.findIndex(x => x.id === parseInt(req.params.id));
-    console.log(req.params.id)
-    if (!products[searchProductByid]) {
-        console.log(products[searchProductByid])
-        console.log(searchProductByid)
-        res.send('Error : product not exists')
+app.delete('/delete/book/:id', (req, res) => {
+    const searchBookByid = books.findIndex(x => x.id === parseInt(req.params.id));
+    if (!books[searchBookByid]) {
+        res.send('Error : book not exists')
         return;
     }
-    products.splice(searchProductByid, 1);
-    res.send('Product has benn deleted');
+    books.splice(searchBookByid, 1);
+    res.send('Book has been deleted successfully');
 })
 app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
