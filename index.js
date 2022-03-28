@@ -26,8 +26,10 @@ books.push(
     }
 )
 
+// get all books
 app.get('/books', (req, res) => res.json(books));
 
+// create one book
 app.post('/create/books', (req, res) => {
     const book = req.body;
     if (books.find(x => x.id === parseInt(req.body.id))) {
@@ -37,7 +39,7 @@ app.post('/create/books', (req, res) => {
     books.push(book);
     res.send('Book has been created successfully');
 })
-
+//get one book by id
 app.get('/book/:id', (req, res) => {
     const searchBookByid = books.find(x => x.id === parseInt(req.params.id))
     if (!searchBookByid) {
@@ -46,7 +48,7 @@ app.get('/book/:id', (req, res) => {
     }
     res.send(searchBookByid);
 })
-
+//update one book by id
 app.post('/update/book/:id', (req, res) => {
     const searchBookByid = books.find(x => x.id === req.params.id)
     if (!searchBookByid) {
@@ -58,6 +60,7 @@ app.post('/update/book/:id', (req, res) => {
     searchBookByid.qty = req.body.qty;
     res.send(searchBookByid);
 })
+//delete one book by id
 
 app.delete('/delete/book/:id', (req, res) => {
     const searchBookByid = books.findIndex(x => x.id === parseInt(req.params.id));
