@@ -2,20 +2,21 @@
 const bookControllers = require('./../controllers/bookControllers');
 
 module.exports = (app) => {
-    // create a note
+    //  get all books
     app.get('/books', bookControllers.fetch);
 
-    // get the list of notes
-    app.post('/book', (request, reply) => { bookControllers.post });
+    // create a book
+    app.post('/book', bookControllers.create);
 
-    // get a single note
-    app.get('/book/:id', (request, reply) => { bookControllers.get });
+    // get book by id
+    app.get('/book/:id', bookControllers.get);
 
-    // update a note
-    //  app.get('/api/book/:name', (request, reply) => { });
+    // get book by name
+    //  app.get('book/name/:name', bookControllers.get);
 
-    // delete a note
-    app.patch('/book/:id', (request, reply) => { bookControllers.patch });
+    // update book by id
+    app.patch('/book/:id', bookControllers.patch);
 
-    app.delete('/book/:id', (request, reply) => { bookControllers.delete });
-};
+    // delete book by id
+    app.delete('/book/:id', bookControllers.delete);
+}; 

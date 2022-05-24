@@ -14,12 +14,12 @@ module.exports = {
     },
 
     // create one book
-    post: async (req, res) => {
+    create: async (req, res) => {
         const name = req.body.name;
         const quantity = req.body.quantity;
-
-        const createBook = new Book({ name: name, quantity: quantity })
-        await createBook.save();
+        const newBook = await Book.create({ name: name, quantity: quantity });
+        newBook.save();
+        res.code(201).send(newBook);
     },
 
     //get one book by id
@@ -33,7 +33,7 @@ module.exports = {
         }
     },
 
-    /*get : ('/search/book/:name', async (req, res) => {
+    /*get: async (req, res) => {
         console.log("here")
         const name = req.params.name
         try {
@@ -42,19 +42,16 @@ module.exports = {
         } catch (err) {
             res.send('book not found')
         }
-    }) */
+    },*/
 
     //update one book by idÒ
     patch: async (req, res) => {
-        const bookId = req.params.id;
-        const name = req.body.name;
-        const quantity = req.body.quantity;
         try {
-            const book = await Book.findById(bookId)
-            book.name = name;
-            book.quantity = quantity;
-            await book.save();
-            res.send(book);
+            const bookId = req.params.id;
+            const updates = req.body;
+            await Book.findByIdAndUpdate(bookId, updates);
+            const BookToUpdate = await Book.findById(bookId);
+            res.code(200).send({ data: BookToUpdate });
         } catch (err) {
             res.send('book not found')
         }
@@ -64,7 +61,7 @@ module.exports = {
     delete: async (req, res) => {
         const bookId = req.params.id;
         try {
-            const book = await Book.delete(bookId)
+            const book = await Book.findByIdAndRemove(bookId)
             await book.save();
             res.send('Book has been deleted');
         } catch (err) {
