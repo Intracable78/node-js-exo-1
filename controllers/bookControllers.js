@@ -2,8 +2,6 @@
 const fastify = require('fastify')({ logger: true })
 const Book = require('../models/book');
 
-//route test
-
 module.exports = {
 
     // get all books

@@ -1,6 +1,7 @@
 
 const bookControllers = require('./../controllers/bookControllers');
 
+
 module.exports = (app) => {
     //  get all books
     app.get('/books', bookControllers.fetch);
@@ -19,4 +20,6 @@ module.exports = (app) => {
 
     // delete book by id
     app.delete('/book/:id', bookControllers.delete);
+
+
 }; 
