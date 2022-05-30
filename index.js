@@ -1,20 +1,15 @@
-// import
-/*const express = require('express');
-const app = express();
-const port = 3000;
-app.use(express.json())*/
+// define base of project
 
 const fastify = require('fastify');
 const app = fastify();
 const mongoose = require('mongoose');
 const bookRoutes = require('./routes/bookRoutes');
-//const contentRangeHook = require('./hooks/contentRangeHook');
+//connect to database
 try {
     mongoose.connect('mongodb://localhost:27017/databaseExo');
 } catch (e) {
     console.error(e);
 }
-//app.addHook('preHandler', contentRangeHook);
 bookRoutes(app);
 app.listen(3000, (err, address) => {
     if (err) {

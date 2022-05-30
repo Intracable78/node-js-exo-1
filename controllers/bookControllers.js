@@ -17,9 +17,12 @@ module.exports = {
     create: async (req, res) => {
         const name = req.body.name;
         const quantity = req.body.quantity;
-        const newBook = await Book.create({ name: name, quantity: quantity });
-        newBook.save();
-        res.code(201).send(newBook);
+        const author = req.body.author;
+        const creationDate = req.body.creationDate;
+        const newBook = await new Book({ name: name, quantity: quantity, author: author, creationDate: creationDate });
+        console.log(newBook);
+        await newBook.save();
+        res.send(newBook);
     },
 
     //get one book by id
@@ -44,7 +47,7 @@ module.exports = {
         }
     },*/
 
-    //update one book by idÒ
+    //update one book by id
     patch: async (req, res) => {
         try {
             const bookId = req.params.id;
